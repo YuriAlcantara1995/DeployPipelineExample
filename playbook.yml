@@ -1,0 +1,19 @@
+- hosts: target
+  tasks:
+    - name: copy artifact
+      ansible.builtin.copy:
+        src: sample
+        dest: /home/vagrant/sample
+        # mode: "0777"
+
+    - name: create simple service template
+      become: true
+      template:
+        src: sample.service.j2
+        dest: /etc/systemd/system/sample.service
+
+    - name: run sample service
+      become: true
+      ansible.builtin.systemd:
+        state: restarted
+        name: sample
