@@ -16,3 +16,4 @@
       ansible.builtin.systemd:
         state: restarted
         name: sample
+        enabled: yes
