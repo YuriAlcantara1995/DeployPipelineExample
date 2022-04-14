@@ -14,5 +14,6 @@
     - name: run sample service
       become: true
       ansible.builtin.systemd:
+        state: started
         name: sample
         enabled: yes
