@@ -5,7 +5,7 @@ pipeline {
     stage('Copy artifact') {
       steps {
         copyArtifacts filter: 'sample', fingerprintArtifacts: true,
-          projectName: 'IntegrationPipelineExample', selector: lastSuccessful()
+          projectName: 'IntegrationMultibranchPipelineExample\master', selector: lastSuccessful()
       }
     }
     stage('Deliver') {
