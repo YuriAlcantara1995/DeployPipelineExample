@@ -4,12 +4,15 @@ pipeline {
   parameters {
   	choice choices: ['qa', 'prod'], description: 'Select enviroment for deployment', name: 'DEPLOY_TO' 
   }
+  parameters {
+        string(name: 'PROJECT_NAME', defaultValue: 'IntegrationMultibranchPipelineExample/qa', description: 'input project to deploy')
+  }
 
   stages {
     stage('Copy artifact') {
       steps {
         copyArtifacts filter: 'sample', fingerprintArtifacts: true,
-          projectName: 'IntegrationMultibranchPipelineExample/qa', selector: lastSuccessful()
+          projectName: ${PROJECT_NAME}, selector: lastSuccessful()
       }
     }
     stage('Deliver') {
