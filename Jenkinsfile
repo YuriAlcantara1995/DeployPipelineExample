@@ -16,7 +16,7 @@ pipeline {
     stage('Deliver') {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key", keyFileVariable: 'keyfile')]) {
-          sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
+          sh 'ansible-playbook -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
           //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.3:' //Using scp, OK
         }
       }
