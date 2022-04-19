@@ -13,30 +13,33 @@ pipeline {
           projectName: '${PROJECT_NAME}', selector: lastSuccessful()
       }
     }
-    stage('Deliver') {
-      steps {
+    stage('Deliver to QA') {
       	when {
     		expression { 
         		params.DEPLOY_TO == 'qa' 
     		}
 	}
+
+      steps {
         withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key", keyFileVariable: 'keyfile')]) {
           sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
           //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.3:' //Using scp, OK
         }
       }
-      steps {
+    }
+    stage('Deliver to PROD') {
       	when {
     		expression { 
-        		params.DEPLOY_TO == 'prod' 
+        		params.DEPLOY_TO == 'qa' 
     		}
 	}
-        withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key-tok8s", keyFileVariable: 'keyfile')]) {
+
+      steps {
+        withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key", keyFileVariable: 'keyfile')]) {
           sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
-          //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.4:' //Using scp, OK
+          //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.3:' //Using scp, OK
         }
       }
     }
-
   }
 }
