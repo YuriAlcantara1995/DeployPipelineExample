@@ -3,8 +3,6 @@ pipeline {
   
   parameters {
   	choice choices: ['qa', 'prod'], description: 'Select enviroment for deployment', name: 'DEPLOY_TO' 
-  }
-  parameters {
         string(name: 'PROJECT_NAME', defaultValue: 'IntegrationMultibranchPipelineExample/qa', description: 'input project to deploy')
   }
 
