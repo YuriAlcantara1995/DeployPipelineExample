@@ -10,7 +10,7 @@ pipeline {
     stage('Copy artifact') {
       steps {
         copyArtifacts filter: 'sample', fingerprintArtifacts: true,
-          projectName: ${PROJECT_NAME}, selector: lastSuccessful()
+          projectName: '${PROJECT_NAME}', selector: lastSuccessful()
       }
     }
     stage('Deliver') {
