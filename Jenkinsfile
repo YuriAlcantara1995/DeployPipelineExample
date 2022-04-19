@@ -30,14 +30,14 @@ pipeline {
     stage('Deliver to PROD') {
       	when {
     		expression { 
-        		params.DEPLOY_TO == 'qa' 
+        		params.DEPLOY_TO == 'prod' 
     		}
 	}
 
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key", keyFileVariable: 'keyfile')]) {
           sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
-          //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.3:' //Using scp, OK
+          //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.4:' //Using scp, OK
         }
       }
     }
