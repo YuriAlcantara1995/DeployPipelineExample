@@ -15,9 +15,25 @@ pipeline {
     }
     stage('Deliver') {
       steps {
+      	when {
+    		expression { 
+        		params.DEPLOY_TO == 'qa' 
+    		}
+	}
         withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key", keyFileVariable: 'keyfile')]) {
-          sh 'ansible-playbook -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
+          sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
           //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.3:' //Using scp, OK
+        }
+      }
+      steps {
+      	when {
+    		expression { 
+        		params.DEPLOY_TO == 'prod' 
+    		}
+	}
+        withCredentials([sshUserPrivateKey(credentialsId: "vagrant-private-key-tok8s", keyFileVariable: 'keyfile')]) {
+          sh 'ansible-playbook --private-key=${keyfile} -i ${DEPLOY_TO}.ini playbook.yml' //Using ansible, OK
+          //sh 'scp -o "StrictHostKeyChecking=no" -i ${keyfile} ./sample vagrant@10.10.50.4:' //Using scp, OK
         }
       }
     }
