@@ -10,7 +10,7 @@ pipeline {
     stage('Copy artifact') {
       steps {
         copyArtifacts filter: 'sample', fingerprintArtifacts: true,
-          projectName: 'IntegrationMultibranchPipelineExample/${BRANCH_NAME}'
+          projectName: 'IntegrationMultibranchPipelineExample/${BRANCH_NAME}', selector: lastCompleted()
       }
     }
     stage('Deliver') {
