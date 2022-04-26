@@ -1,5 +1,12 @@
 - hosts: target
   tasks:
+    - name: create vagrant folder
+      become: true
+      file:
+        dest: /home/vagrant
+        state: directory
+        mode: "0777"
+        
     - name: copy artifact
       ansible.builtin.copy:
         src: sample

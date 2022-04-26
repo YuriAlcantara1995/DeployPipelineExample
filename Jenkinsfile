@@ -2,7 +2,7 @@ pipeline {
   agent any
   
   parameters {
-  	choice choices: ['qa', 'prod'], description: 'Select enviroment for deployment', name: 'DEPLOY_TO' 
+  	choice choices: ['qa', 'prod', 'aws'], description: 'Select enviroment for deployment', name: 'DEPLOY_TO' 
         string(name: 'BRANCH_NAME', defaultValue: 'qa', description: 'input branch name to deploy')
   }
 
