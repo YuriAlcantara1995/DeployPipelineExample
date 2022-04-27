@@ -5,7 +5,7 @@
       file:
         dest: /home/vagrant
         state: directory
-        mode: "0777"
+        mode: "0700"
         
     - name: copy artifact
       ansible.builtin.copy:
